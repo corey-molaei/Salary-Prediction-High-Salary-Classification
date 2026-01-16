@@ -166,11 +166,13 @@ This mirrors **real HR screening trade-offs**.
 pip install -r requirements.txt
 ```
 
-Open notebooks in order:
+Then open either notebook:
 
-1. `01_exploration.ipynb`
-2. `02_regression_models.ipynb`
-3. `03_classification_high_salary.ipynb`
+salary_regression.ipynb
+
+high_salary_classification.ipynb
+
+Each notebook loads the dataset independently and can be run on its own.
 
 ---
 
