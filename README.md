@@ -1,170 +1,205 @@
-# Salary Prediction & High-Salary Classification
+Salary Prediction & High-Salary Classification
 
-**Machine Learning with Python (scikit-learn)**
+Machine Learning with Python (scikit-learn)
 
-## 📌 Project Overview
+📌 Project Overview
 
 This project demonstrates an end-to-end machine learning workflow for:
 
-1. **Salary Prediction (Regression)**
-2. **High-Salary Classification (Binary Classification)**
+Salary Prediction (Regression)
 
-The goal is to build, evaluate, and compare multiple models while focusing on **generalisation**, **bias–variance trade-off**, and **business-driven model selection** rather than just maximising training accuracy.
+High-Salary Classification (Binary Classification)
 
----
+The focus is on model comparison, generalisation, regularisation, and business-aware evaluation, rather than maximising training accuracy.
 
-## 🎯 Business Motivation
+🎯 Business Motivation
 
-* Salary estimation is a common problem in HR, recruitment, and workforce planning.
-* In addition to predicting exact salary values, many real-world systems require **classification**, e.g.:
+Salary prediction is widely used in HR analytics, recruitment, and workforce planning.
 
-  * Identifying **high-salary candidates**
-  * Screening candidates for senior roles
-* This project mirrors real industry constraints:
+In many real-world scenarios, predicting an exact salary is not sufficient.
 
-  * Limited data
-  * Noisy features
-  * Trade-offs between accuracy, robustness, and interpretability
+Binary decisions such as identifying high-salary candidates are often required for screening and prioritisation.
 
----
+This project reflects real industry constraints:
 
-## 🧠 What I Learned (Key Takeaways)
+Limited and noisy tabular data
 
-* How linear models struggle with non-linear relationships
-* How decision trees overfit without regularisation
-* How ensemble models reduce variance and improve generalisation
-* How to tune Gradient Boosting using **regularisation**, not guesswork
-* How to choose a model based on **test performance**, not training score
-* How evaluation metrics map to **business decisions**
+Trade-offs between accuracy, robustness, and interpretability
 
----
+Business-driven metric selection
 
-## 📊 Dataset & Features
+📁 Project Structure
+salary-ml-prediction/
+│
+├── README.md
+├── data/
+│   └── age_experience_salary_100.csv
+│
+├── notebooks/
+│   ├── salary_regression.ipynb
+│   └── high_salary_classification.ipynb
+│
+├── requirements.txt
+└── .gitignore
 
-* **Target (Regression):** Salary
-* **Target (Classification):** High salary (binary)
-* **Features include:**
 
-  * Age
-  * Years of experience
-  * Other candidate attributes (numeric)
+Each notebook loads the dataset independently using relative paths to remain
+self-contained and reproducible.
 
-Data preprocessing includes:
+📊 Dataset & Features
 
-* Feature selection
-* Train/test split
-* Avoiding data leakage
+Regression target: salary
 
----
+Classification target: high_salary (binary)
 
-## 🧪 Models & Methodology
+Features include:
 
-### 1️⃣ Baseline — Linear Regression
+Age
 
-* Used as a benchmark
-* Pros: simple, stable
-* Cons: limited ability to capture non-linear patterns
+Years of experience
 
----
+Other numeric candidate attributes
 
-### 2️⃣ Decision Tree Regression
+Basic preprocessing is performed directly in each notebook to keep them
+independent and easy to review.
 
-* Initially achieved near-perfect training performance
-* Severe overfitting observed
-* Controlled using `max_depth`
+🧪 Notebook 1 — Salary Prediction (Regression)
 
-**Key lesson:**
+Notebook: salary_regression.ipynb
 
-> High training accuracy does not mean a good model.
+Objective
 
----
+Predict continuous salary values using multiple regression models and select
+the best model based on test performance and generalisation.
 
-### 3️⃣ Random Forest Regression
+Models evaluated
 
-* Reduced variance by averaging multiple constrained trees
-* Strong improvement in test performance
-* Robust and stable default for tabular data
+Linear Regression (baseline)
 
----
+Decision Tree Regression
 
-### 4️⃣ Gradient Boosting Regression (Tuned & Regularised)
+Regularised Decision Tree (depth control)
 
-Gradient Boosting was tuned using:
+Random Forest Regression
 
-* Shallow trees (`max_depth = 2`)
-* Learning rate vs number of estimators trade-off
-* Subsampling
-* Minimum samples per leaf
+Gradient Boosting Regression (tuned & regularised)
 
-**Final configuration achieved:**
+Key techniques
 
-* **Test R² ≈ 0.915**
-* **RMSE ≈ $6.9k**
-* Strong generalisation with controlled overfitting
+Train/test split
 
-**Engineering decision:**
-Although Random Forest performed well, **regularised Gradient Boosting** was selected due to superior test performance and acceptable stability.
+Bias–variance analysis
 
----
+Overfitting detection
 
-## 📈 Final Regression Results
+Regularisation (tree depth, learning rate, subsampling)
 
-| Model                         | Train R² |   Test R² |      RMSE |
-| ----------------------------- | -------: | --------: | --------: |
-| Linear Regression             |    ~0.85 |     ~0.85 |    ~9–10k |
-| Decision Tree (depth=4)       |     0.90 |      0.76 |    ~11.5k |
-| Random Forest                 |     0.93 |      0.87 |     ~8.4k |
-| **Gradient Boosting (tuned)** | **0.94** | **0.915** | **~6.9k** |
+Model comparison using:
 
----
+R²
 
-## 🧠 Bias–Variance Perspective
+RMSE
 
-* Linear models → **high bias**
-* Deep trees → **high variance**
-* Random Forest → variance reduction via averaging
-* Gradient Boosting → bias reduction via sequential learning
+📈 Final Regression Results
 
-**Regularisation** (depth, learning rate, subsampling) was essential to prevent overfitting.
+Multiple regression models were evaluated and compared using test performance
+and generalisation behaviour.
 
----
+Model	Train R² (approx)	Test R² (approx)	RMSE (approx)
+Linear Regression	~0.85	~0.85	~$9–10k
+Decision Tree (regularised)	~0.90	~0.75	~$11–12k
+Random Forest	~0.93	~0.87	~$8–9k
+Gradient Boosting (regularised)	~0.94	~0.91	~$6–7k
+Model selection
 
-## 🔍 High-Salary Classification
+After tuning and regularisation, Gradient Boosting achieved the strongest
+test performance with the lowest RMSE and highest test R² while maintaining a
+controlled train–test gap.
 
-In addition to regression, the project includes **binary classification**:
+Although Random Forest performed well and offered strong robustness,
+regularised Gradient Boosting was selected due to its superior generalisation
+and lower prediction error.
 
-* Target: `high_salary` (1 = high, 0 = not high)
-* Models evaluated using:
+🧠 Bias–Variance Perspective
 
-  * Precision
-  * Recall
-  * Confusion matrix
-  * Threshold tuning
+Linear models → higher bias, limited flexibility
 
-### Metric reasoning:
+Deep decision trees → low bias, high variance (overfitting)
 
-* Recall prioritised when missing high-salary candidates is costly
-* Precision prioritised when false positives are costly
+Random Forest → variance reduction through averaging
 
-This mirrors **real HR screening trade-offs**.
+Gradient Boosting → bias reduction through sequential learning
 
----
+Regularisation was essential to achieve strong generalisation.
 
-## 🛠 Tools & Technologies
+🧪 Notebook 2 — High-Salary Classification
 
-* Python
-* NumPy
-* Pandas
-* scikit-learn
-* Jupyter Notebook
+Notebook: high_salary_classification.ipynb
 
----
+Objective
 
-## 🚀 How to Run
+Classify whether a candidate belongs to a high-salary group.
 
-```bash
+Methodology
+
+Create a binary target high_salary based on a salary threshold
+
+Train classification models
+
+Evaluate using classification-specific metrics
+
+Metrics used
+
+Confusion matrix
+
+Precision
+
+Recall
+
+F1-score
+
+Probability threshold analysis
+
+🎯 Threshold & Metric Reasoning
+
+Precision is important when false positives are costly
+
+Recall is important when missing high-salary candidates is costly
+
+F1-score provides a balanced metric when both errors matter
+
+Different probability thresholds (e.g. 0.6 vs 0.4) are evaluated to align the
+model with real-world decision-making rather than relying on a fixed default.
+
+🧠 Key Learnings
+
+Linear models often underperform on non-linear tabular data
+
+Decision trees overfit without regularisation
+
+Random Forest improves stability via variance reduction
+
+Gradient Boosting can achieve higher accuracy when properly regularised
+
+Model selection should be driven by test performance, not training scores
+
+Metric choice must reflect business objectives
+
+🛠 Tools & Technologies
+
+Python
+
+NumPy
+
+Pandas
+
+scikit-learn
+
+Jupyter Notebook
+
+🚀 How to Run
 pip install -r requirements.txt
-```
+
 
 Then open either notebook:
 
@@ -174,21 +209,22 @@ high_salary_classification.ipynb
 
 Each notebook loads the dataset independently and can be run on its own.
 
----
+📌 Conclusion
 
-## 📌 Conclusion
+This project demonstrates practical machine learning skills including:
 
-This project demonstrates:
+End-to-end model development
 
-* End-to-end ML thinking
-* Model comparison and selection
-* Practical regularisation
-* Business-aligned evaluation
+Bias–variance reasoning
 
-It reflects how machine learning is applied in **real-world engineering**, not just academic settings.
+Regularisation and tuning
 
----
+Business-aligned evaluation and decision-making
 
-## 👤 Author
+It reflects how machine learning models are built, evaluated, and selected in
+real-world engineering environments.
 
-**Corey Molaei**
+👤 Author
+
+Corey Molaei
+AI Engineer | Python & Machine Learning
