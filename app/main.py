@@ -24,4 +24,11 @@ def predict(req: SalaryRequest):
     }])
 
     pred = model.predict(X)[0]
-    return {"predicted_salary": float(pred)}
+    return {
+    "input": {
+        "age": req.age,
+        "experience_year": req.experience_year
+    },
+    "predicted_salary": float(pred),
+    "message": "Prediction generated successfully"
+}
